@@ -44,12 +44,15 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
         .then(res=>{
             if (res.data.resultCode === StatusCode.Ok){
                 dispatch(setIsLoggedInAC(true))
-                dispatch(setInitialized(true))
             }else {
                 handleServerAppError(res.data, dispatch);
+
             }})
         .catch((error:AxiosError) => {
             handleServerNetworkError(error, dispatch)
+        })
+        .finally(()=>{
+            dispatch(setInitialized(true))
         })
 
 }
