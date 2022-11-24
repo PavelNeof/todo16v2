@@ -14,7 +14,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { Menu } from '@mui/icons-material';
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/Login/Login";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import {loginTC, logoutTC} from "../features/Login/auth-reducer";
 import {CircularProgress} from "@mui/material";
 
@@ -28,6 +28,7 @@ function App({demo = false}: PropsType) {
     const isLoggedIn = useSelector<AppRootStateType,boolean>(state => state.auth.isLoggedIn)
 
     const dispatch=useDispatch()
+    const navigate = useNavigate()
 
     useEffect(()=>{
         dispatch(initializeAppTC())
@@ -38,6 +39,10 @@ function App({demo = false}: PropsType) {
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
+    }
+
+    const navigateHandler = () => {
+        navigate('/login')
     }
 
     return (
@@ -61,7 +66,9 @@ function App({demo = false}: PropsType) {
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/*'} element = {<Navigate to={'/404'}/>}/>
                     <Route path={'/todo16v2'} element = {<Navigate to={'/login'}/>}/>
-                    <Route path={'/404'} element = {<h1 style={{textAlign:"center"}}>404: PAGE NOT FOUND</h1>}/>
+                    <Route path={'/404'} element = {<h1 style={{textAlign:"center"}}>404: PAGE NOT FOUND. Please click here-{'>'}
+                    <button onClick={navigateHandler}>Login</button>
+                    </h1>}/>
                 </Routes>
 
 
